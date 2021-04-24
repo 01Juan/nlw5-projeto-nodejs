@@ -1,18 +1,15 @@
-import { getCustomRepository, Repository } from "typeorm"
-import { User } from "../entities/User";
-import { UsersRepository } from "../repositories/UsersRepository"
+import { getCustomRepository } from 'typeorm';
 
-interface IUserCreate {
-  email: string;
-}
+import { UsersRepository } from '../repositories/UsersRepository';
 
 class UsersService {
-  private usersRepository: Repository<User>;
+  private usersRepository: UsersRepository;
+
   constructor() {
     this.usersRepository = getCustomRepository(UsersRepository);
   }
-  async create({ email }: IUserCreate) {
 
+  async create(email: string) {
     const userExists = await this.usersRepository.findOne({ email });
 
     if (userExists) {
@@ -26,10 +23,11 @@ class UsersService {
     return user;
   }
 
-  async findByEmail({ email }: IUserCreate) {
+  async findByEmail(email: string) {
     const user = await this.usersRepository.findOne({ email });
 
     return user;
   }
 }
-export { UsersService }
+
+export { UsersService };
